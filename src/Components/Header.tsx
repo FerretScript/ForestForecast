@@ -1,6 +1,17 @@
 import { Link } from "wouter";
 import { TreePine } from "lucide-react";
 
+const scrollToSection = (
+  e: React.MouseEvent<HTMLAnchorElement>,
+  id: string,
+) => {
+  e.preventDefault();
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 export default function Header() {
   return (
     <nav className="min-w-screen flex h-[4.375rem] w-full items-center justify-between scroll-smooth border-b-2 border-dgreen bg-lgreen">
@@ -10,11 +21,13 @@ export default function Header() {
         </a>
       </Link>
       <div className="flex h-full w-fit items-center justify-center">
-        <Link href="/about">
-          <a className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl">
-            ABOUT US
-          </a>
-        </Link>
+        <a
+          href="#about-us"
+          onClick={(e) => scrollToSection(e, "about-us")}
+          className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
+        >
+          ABOUT US
+        </a>
         <Link href="/simulator">
           <a className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl">
             SIMULATOR
@@ -22,6 +35,7 @@ export default function Header() {
         </Link>
         <a
           href="#contact"
+          onClick={(e) => scrollToSection(e, "contact")}
           className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
         >
           CONTACT US

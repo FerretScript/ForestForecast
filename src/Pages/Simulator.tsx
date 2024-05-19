@@ -1,4 +1,4 @@
-import { BitmapLayer, DeckGL } from "deck.gl";
+import { DeckGL, HeatmapLayer } from "deck.gl";
 import Map from "react-map-gl";
 import { useEffect, useRef, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
@@ -18,6 +18,15 @@ const InitialViewState = {
   bearing: 0,
   pitch: 30,
 };
+
+
+const fetchHeatMapChunk = async (url: string) => {
+  const res = await fetch(url).then((res) => res.json()).catch((err) => console.error(err));
+
+  return res;
+}
+
+const heatMapData = await fetchHeatMapChunk(`${api}/data`)
 
 export default function Simulator() {
   const [slider, setSlider] = useState(50);
@@ -70,16 +79,19 @@ export default function Simulator() {
     "https://forestforecastbe.onrender.com/assets/qr.jpg",
   );
 
-  const [layer, setLayer] = useState<BitmapLayer>();
+  const [layer, setLayer] = useState<HeatmapLayer>();
 
   useEffect(() => {
-    if (status === "success") {
+    if (heatMapData) {
       setLayer(
-        new BitmapLayer({
-          id: "BitmapLayer",
-          bounds: [-122.590, 37.7045, -122.355, 37.829],
-          image: "http://localhost:5173/compressed.png",
-          pickable: true,
+        new HeatmapLayer({
+          id: 'HeatmapLayer',
+          data: heatMapData,
+        
+          aggregation: 'SUM',
+          getPosition: d => d.coordinates,
+          getWeight: d => d.brightness,
+          radiusPixels: 25
         }),
       );
     }

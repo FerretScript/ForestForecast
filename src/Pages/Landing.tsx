@@ -1,9 +1,9 @@
-import { FaGithub } from "react-icons/fa";
 import { Suspense, useRef } from "react";
 import LoadingScreen from "../Components/LoadingScreen";
 import { useScroll } from "framer-motion";
 import Nav from "../Components/Nav";
 import Paralax from "../Components/Paralax";
+import { Github } from "lucide-react";
 
 export default function Landing() {
     const ref = useRef(null);
@@ -140,7 +140,7 @@ export default function Landing() {
                   href="https://github.com/FerretScript"
                   className="text-3xl text-[#283618] sm:text-4xl"
                 >
-                  <FaGithub />
+                  <Github />
                 </a>
               </div>
             </div>

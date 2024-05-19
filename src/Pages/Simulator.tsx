@@ -101,7 +101,7 @@ export default function Simulator() {
           onClick={() => setShowModal(!showModal)}
           className="pointer-events-auto flex w-full items-center justify-between space-x-3 px-2 text-2xl font-semibold text-black"
         >
-          <p>Deforestation in Jalisco</p>
+          <p>Estadisticas de deforestacion</p>
           {!showModal ? <Info size={24} /> : <X size={24} />}
         </button>
         {showModal && (

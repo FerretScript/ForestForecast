@@ -1,11 +1,13 @@
 import { BitmapLayer, DeckGL } from "deck.gl";
 import Map from "react-map-gl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
 import { Info, X, GripHorizontal } from "lucide-react";
 import FloatingNav from "../Components/FloatingNav";
+import { useQuery } from "react-query";
+import axios from "axios";
 
-// const api = "https://4998-200-36-251-141.ngrok-free.app/polygon";
+const api = "https://forestforecastbe.onrender.com";
 
 const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 
@@ -17,28 +19,28 @@ const InitialViewState = {
   pitch: 30,
 };
 
-const rasterChunkEndpoint =
-  "https://0860-200-36-251-141.ngrok-free.app/`image1";
-
 export default function Simulator() {
   const [slider, setSlider] = useState(50);
   const [showModal, setShowModal] = useState(false);
   const ref = useRef(null);
   const dragControls = useDragControls();
 
-  const fetchRasterChunk = () => {
-    return new Promise((resolve, reject) => {
-      fetch(rasterChunkEndpoint, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-        },
-      })
-        .then((res) => res.blob())
-        .then((blob) => createImageBitmap(blob)) // create ImageBitmap from Blob
-        .then((imageBitmap) => resolve(imageBitmap)) // resolve with ImageBitmap
-        .catch((error) => reject(error));
-    });
-  };
+  function useImage(url: string) {
+    return useQuery(
+      ["image", url],
+      async () => {
+        const response = await axios.get(url, { responseType: "blob" });
+        const blob = response.data;
+        const imageUrl = URL.createObjectURL(blob);
+        console.log(imageUrl)
+        return imageUrl;
+      },
+      {
+        staleTime: Infinity, // This will make the fetched data never stale
+        cacheTime: Infinity, // This will not remove the data from the cache until the cache itself is garbage collected
+      },
+    );
+  }
 
   // const fetchPolygon = async () => {
   //   const res = await fetch(api, {
@@ -64,12 +66,24 @@ export default function Simulator() {
   //   pickable: true,
   // });
 
-  const layer = new BitmapLayer({
-    id: "BitmapLayer",
-    bounds: [-122.519, 37.7045, -122.355, 37.829],
-    image: fetchRasterChunk(),
-    pickable: true,
-  });
+  const { data: imageUrl, status } = useImage(
+    "https://forestforecastbe.onrender.com/assets/qr.jpg",
+  );
+
+  const [layer, setLayer] = useState<BitmapLayer>();
+
+  useEffect(() => {
+    if (status === "success") {
+      setLayer(
+        new BitmapLayer({
+          id: "BitmapLayer",
+          bounds: [-122.590, 37.7045, -122.355, 37.829],
+          image: "http://localhost:5173/compressed.png",
+          pickable: true,
+        }),
+      );
+    }
+  }, [status, imageUrl]);
 
   return (
     <div

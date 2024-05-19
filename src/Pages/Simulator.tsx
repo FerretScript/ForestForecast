@@ -1,4 +1,4 @@
-import { _GlobeView, DeckGL, HeatmapLayer } from "deck.gl";
+import { DeckGL, HeatmapLayer } from "deck.gl";
 import Map from "react-map-gl";
 import { useEffect, useRef, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
@@ -147,11 +147,6 @@ export default function Simulator() {
         initialViewState={InitialViewState}
         controller={true}
         layers={[layer]}
-        views={
-          new _GlobeView({
-            resolution: 10,
-          })
-        }
       >
         <Map
           mapStyle={"mapbox://styles/mapbox/satellite-streets-v12"}

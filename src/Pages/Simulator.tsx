@@ -101,7 +101,7 @@ export default function Simulator() {
           onClick={() => setShowModal(!showModal)}
           className="pointer-events-auto flex w-full items-center justify-between space-x-3 px-2 text-2xl font-semibold text-black"
         >
-          <p>Estadisticas de deforestacion</p>
+          <p>Datos de deforestacion</p>
           {!showModal ? <Info size={24} /> : <X size={24} />}
         </button>
         {showModal && (
@@ -116,8 +116,8 @@ export default function Simulator() {
               alt="color-brewer"
             />
             <div className="flex h-fit w-full place-items-center justify-between">
-              <p>Fewer</p>
-              <p>More</p>
+              <p>Menos</p>
+              <p>Mas</p>
             </div>
             {/* <label htmlFor="time" className="mb-2 block font-medium">
               Time range

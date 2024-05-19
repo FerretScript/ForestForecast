@@ -1,4 +1,4 @@
-import { DeckGL, HeatmapLayer } from "deck.gl";
+import { _GlobeView, DeckGL, HeatmapLayer } from "deck.gl";
 import Map from "react-map-gl";
 import { useEffect, useRef, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
@@ -12,15 +12,15 @@ const api = "https://forestforecastbe.onrender.com";
 const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 
 const InitialViewState = {
-  latitude: 39.8283,
-  longitude: -98.5795,
+  latitude: 20.671779,
+  longitude: -103.348609,
   zoom: 5,
   bearing: 0,
   pitch: 30,
 };
 
 export default function Simulator() {
-  const [slider, setSlider] = useState(50);
+  // const [slider, setSlider] = useState(50);
   const [showModal, setShowModal] = useState(false);
   const ref = useRef(null);
   const dragControls = useDragControls();
@@ -41,30 +41,6 @@ export default function Simulator() {
       },
     );
   }
-
-  // const fetchPolygon = async () => {
-  //   const res = await fetch(api, {
-  //     headers: {
-  //       "ngrok-skip-browser-warning": "any_value",
-  //     },
-  //   });
-  //   const text = await res.text(); // get response text
-  //   return JSON.parse(text); // parse text as JSON
-  // };
-
-  // const { data } = useQuery("users", fetchPolygon);
-
-  // const layer = new GeoJsonLayer({
-  //   data: data,
-  //   opacity: 0.8,
-  //   stroked: false,
-  //   filled: true,
-  //   extruded: true,
-  //   wireframe: true,
-  //   getFillColor: [0, 0, 255],
-  //   getLineColor: [255, 255, 255],
-  //   pickable: true,
-  // });
 
   const { data: imageUrl, status } = useImage(
     "https://forestforecastbe.onrender.com/assets/qr.jpg",
@@ -99,7 +75,6 @@ export default function Simulator() {
         new HeatmapLayer({
           id: "HeatmapLayer",
           data: heatMapData,
-
           aggregation: "SUM",
           getPosition: (d) => d.coordinates,
           getWeight: (d) => d.brightness,
@@ -124,18 +99,27 @@ export default function Simulator() {
       >
         <button
           onClick={() => setShowModal(!showModal)}
-          className="pointer-events-auto flex items-center justify-between space-x-3 px-2 text-2xl font-semibold text-black"
+          className="pointer-events-auto flex w-full items-center justify-between space-x-3 px-2 text-2xl font-semibold text-black"
         >
           <p>Deforestation in Jalisco</p>
-          {showModal ? <Info size={24} /> : <X size={24} />}
+          {!showModal ? <Info size={24} /> : <X size={24} />}
         </button>
         {showModal && (
           <div className=" z-50 flex h-full w-full flex-col items-start justify-center space-y-2 pb-2 text-left text-black">
             <p className="">
-              Reported new COVID-19 cases per 100,000 residents during the week
-              of August 16, 2020
+              Detected zones of deforestation and/or vegetation erosion
+              (Detections are ~85% accurate)
             </p>
-            <label htmlFor="time" className="mb-2 block font-medium">
+            <img
+              className="h-2 w-full"
+              src="https://deck.gl/images/colorbrewer_YlOrRd_6.png"
+              alt="color-brewer"
+            />
+            <div className="flex h-fit w-full place-items-center justify-between">
+              <p>Fewer</p>
+              <p>More</p>
+            </div>
+            {/* <label htmlFor="time" className="mb-2 block font-medium">
               Time range
             </label>
             <input
@@ -144,7 +128,7 @@ export default function Simulator() {
               value={slider}
               onChange={(event) => setSlider(Number(event.target.value))}
               className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-            />
+            /> */}
           </div>
         )}
         <div
@@ -163,6 +147,11 @@ export default function Simulator() {
         initialViewState={InitialViewState}
         controller={true}
         layers={[layer]}
+        views={
+          new _GlobeView({
+            resolution: 10,
+          })
+        }
       >
         <Map
           mapStyle={"mapbox://styles/mapbox/satellite-streets-v12"}

@@ -15,7 +15,7 @@ export default function Paralax({ scrollYProgress }: Props) {
   };
 
   scroll((progress) => {
-    if (progress > 0.95 && location === "/") {
+    if (progress > 0.9 && location === "/") {
       navigate();
     }
   });

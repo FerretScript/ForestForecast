@@ -27,7 +27,7 @@ export default function FloatingNav() {
         animate={showNav ? { x: "0%" } : { x: "-120%" }}
         className="absolute  bottom-4 left-2 z-50 flex h-28 w-14 flex-col items-center justify-around rounded-2xl bg-white p-1 md:top-4 md:h-40 md:w-20"
       >
-        <IconLink href={"/"}>
+        <IconLink href={"/#nav"}>
           <Home size={30} className="stroke-black" />
         </IconLink>
         <IconLink href="/about-us">

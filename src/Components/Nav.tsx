@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Nav() {
   return (
-    <nav className="min-w-screen flex h-[50px]  w-full items-center justify-between scroll-smooth border-b-2 border-dgreen bg-lgreen md:h-[4.375rem]">
+    <nav id="nav" className="min-w-screen flex h-[50px] w-full items-center justify-between scroll-smooth border-b-2 border-dgreen bg-lgreen md:h-[4.375rem]">
       <motion.a
         whileTap={{ scale: 0.8 }}
         href="https://github.com/FerretScript/ForestForecast"

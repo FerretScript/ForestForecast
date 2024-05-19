@@ -20,7 +20,7 @@ export default function Paralax({ scrollYProgress }: Props) {
     }
   });
 
-  const backgroundhelper = useTransform(scrollYProgress, [0, 1], ["80%", "0%"]);
+  const backgroundhelper = useTransform(scrollYProgress, [0, 1], ["79%", "0%"]);
   const layer4Y = useTransform(scrollYProgress, [0, 1], ["-1%", "20%"]);
   const layer3Y = useTransform(scrollYProgress, [0, 1], ["-1%", "5%"]);
   const layer2Y = useTransform(scrollYProgress, [0, 1], ["-2%", "-10%"]);
@@ -96,7 +96,7 @@ export default function Paralax({ scrollYProgress }: Props) {
           }}
         />
         <motion.div
-          className="pointer-events-none absolute bottom-0 z-40 h-72 w-full bg-[#0b1e25]"
+          className="pointer-events-none absolute bottom-0 z-40 h-80 w-full bg-[#0b1e25]"
           style={{
             y: backgroundhelper,
           }}

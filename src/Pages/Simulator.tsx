@@ -19,15 +19,6 @@ const InitialViewState = {
   pitch: 30,
 };
 
-
-const fetchHeatMapChunk = async (url: string) => {
-  const res = await fetch(url).then((res) => res.json()).catch((err) => console.error(err));
-
-  return res;
-}
-
-const heatMapData = await fetchHeatMapChunk(`${api}/data`)
-
 export default function Simulator() {
   const [slider, setSlider] = useState(50);
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +32,7 @@ export default function Simulator() {
         const response = await axios.get(url, { responseType: "blob" });
         const blob = response.data;
         const imageUrl = URL.createObjectURL(blob);
-        console.log(imageUrl)
+        console.log(imageUrl);
         return imageUrl;
       },
       {
@@ -80,22 +71,43 @@ export default function Simulator() {
   );
 
   const [layer, setLayer] = useState<HeatmapLayer>();
+  const [heatMapData, setHeatMapData] = useState();
+
+  useEffect(() => {
+    const fetchHeatMapChunk = async (url: string) => {
+      const res = await fetch(url)
+        .then((res) => res.json())
+        .catch((err) => console.error(err));
+      return res;
+    };
+
+    const fetchData = async () => {
+      try {
+        const data = await fetchHeatMapChunk(`${api}/data`);
+        setHeatMapData(data); 
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (heatMapData) {
       setLayer(
         new HeatmapLayer({
-          id: 'HeatmapLayer',
+          id: "HeatmapLayer",
           data: heatMapData,
-        
-          aggregation: 'SUM',
-          getPosition: d => d.coordinates,
-          getWeight: d => d.brightness,
-          radiusPixels: 25
+
+          aggregation: "SUM",
+          getPosition: (d) => d.coordinates,
+          getWeight: (d) => d.brightness,
+          radiusPixels: 25,
         }),
       );
     }
-  }, [status, imageUrl]);
+  }, [status, imageUrl, heatMapData]);
 
   return (
     <div

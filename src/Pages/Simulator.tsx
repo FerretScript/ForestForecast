@@ -1,7 +1,7 @@
 import { DeckGL, GeoJsonLayer } from "deck.gl";
 import Map from "react-map-gl";
 import { useQuery } from "react-query";
-import { PointerEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
 import { Info, X, GripHorizontal } from "lucide-react";
 
@@ -44,30 +44,23 @@ export default function Simulator() {
     pickable: true,
   });
 
-  const ref = useRef(null);
+  const [slider, setSlider] = useState(50);
 
   const [show, setShow] = useState(false);
 
+  const ref = useRef(null);
   const dragControls = useDragControls();
-
-  function startDrag(event: PointerEvent<Element> | PointerEvent) {
-    dragControls.start(event, { snapToCursor: true });
-  }
-
-  const [slider, setSlider] = useState(50);
 
   return (
     <div
       ref={ref}
-      className="relative flex h-screen w-screen items-start justify-center overflow-y-hidden md:justify-end"
+      className=" relative flex h-screen w-screen items-start justify-center overflow-y-hidden md:justify-end"
     >
       <motion.div
-        whileHover={{ scale: 1.03 }}
-        className="pointer-events-none z-40 mt-4 flex  w-[25rem] flex-shrink flex-col items-center justify-center space-y-2 rounded-2xl bg-white px-5 py-3 pb-3 active:cursor-grabbing md:mr-4"
+        className="z-40 mt-4 flex  w-[25rem] flex-shrink flex-col items-center justify-center space-y-2 rounded-2xl bg-white px-5 py-3 pb-3 md:mr-4"
         drag
-        dragConstraints={ref}
         dragElastic={0.05}
-        dragMomentum={false}
+        dragControls={dragControls}
         dragListener={false}
       >
         <button
@@ -78,16 +71,16 @@ export default function Simulator() {
           {show ? <Info size={24} /> : <X size={24} />}
         </button>
         {show && (
-          <div className="pointer-events-auto z-50 flex h-full w-full flex-col items-start justify-center space-y-2 pb-2 text-left text-black">
+          <div className=" z-50 flex h-full w-full flex-col items-start justify-center space-y-2 pb-2 text-left text-black">
             <p className="">
               Reported new COVID-19 cases per 100,000 residents during the week
               of August 16, 2020
             </p>
-            <label htmlFor="default-range" className="mb-2 block font-medium">
-              Default range
+            <label htmlFor="time" className="mb-2 block font-medium">
+              Time range
             </label>
             <input
-              id="default-range"
+              id="time"
               type="range"
               value={slider}
               onChange={(event) => setSlider(Number(event.target.value))}
@@ -96,8 +89,11 @@ export default function Simulator() {
           </div>
         )}
         <div
-          onPointerDown={startDrag}
-          className="pointer-events-auto flex h-5 w-full cursor-grab items-center justify-center active:cursor-grabbing"
+          onPointerDown={(e) => {
+            dragControls.start(e);
+          }}
+          className="flex h-5 w-full pointer-events-auto cursor-grab items-center justify-center"
+          style={{ touchAction: "none" }}
         >
           <GripHorizontal size={30} className="stroke-gray-600" />
         </div>

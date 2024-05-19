@@ -2,8 +2,8 @@ import { DeckGL, GeoJsonLayer } from "deck.gl";
 import Map from "react-map-gl";
 import { useQuery } from "react-query";
 import { useRef, useState } from "react";
-import { motion, useDragControls } from "framer-motion";
-import { Info, X, GripHorizontal } from "lucide-react";
+import { motion, useDragControls, MotionValue } from "framer-motion";
+import { Info, X, GripHorizontal, ChevronRight } from "lucide-react";
 
 const api = "https://4998-200-36-251-141.ngrok-free.app/polygon";
 
@@ -46,7 +46,9 @@ export default function Simulator() {
 
   const [slider, setSlider] = useState(50);
 
-  const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const [ showNav, setShowNav ] = useState(false);
 
   const ref = useRef(null);
   const dragControls = useDragControls();
@@ -54,23 +56,24 @@ export default function Simulator() {
   return (
     <div
       ref={ref}
-      className=" relative flex h-screen w-screen items-start justify-center overflow-y-hidden md:justify-end"
+      className="relative flex h-screen w-screen items-start justify-center overflow-hidden overflow-y-hidden md:justify-end"
     >
       <motion.div
-        className="z-40 mt-4 flex  w-[25rem] flex-shrink flex-col items-center justify-center space-y-2 rounded-2xl bg-white px-5 py-3 pb-3 md:mr-4"
+        className="absolute right-4 top-4 z-40 flex  w-[25rem] flex-shrink flex-col items-center justify-center space-y-2 rounded-2xl bg-white px-5 py-3 pb-3"
         drag
-        dragElastic={0.05}
+        dragElastic={0.2}
         dragControls={dragControls}
         dragListener={false}
+        dragConstraints={ref}
       >
         <button
-          onClick={() => setShow(!show)}
+          onClick={() => setShowModal(!showModal)}
           className="pointer-events-auto flex items-center justify-between space-x-3 px-2 text-2xl font-semibold text-black"
         >
           <p>Deforestation in Jalisco</p>
-          {show ? <Info size={24} /> : <X size={24} />}
+          {showModal ? <Info size={24} /> : <X size={24} />}
         </button>
-        {show && (
+        {showModal && (
           <div className=" z-50 flex h-full w-full flex-col items-start justify-center space-y-2 pb-2 text-left text-black">
             <p className="">
               Reported new COVID-19 cases per 100,000 residents during the week
@@ -92,12 +95,22 @@ export default function Simulator() {
           onPointerDown={(e) => {
             dragControls.start(e);
           }}
-          className="flex h-5 w-full pointer-events-auto cursor-grab items-center justify-center"
+          className="pointer-events-auto flex h-5 w-full cursor-grab items-center justify-center"
           style={{ touchAction: "none" }}
         >
           <GripHorizontal size={30} className="stroke-gray-600" />
         </div>
       </motion.div>
+      <motion.button
+        whileHover={{ scale: 1.06 }}
+        onClick={() => {
+          setShowNav(!showNav);
+        }}
+        animate={showNav ? { x: "150%" } : { x: "0%" }}
+        className="absolute left-4 top-4 z-50 flex aspect-square h-20 items-center justify-center rounded-2xl bg-white"
+      >
+        <ChevronRight size={80} className="stroke-black pl-1" />
+      </motion.button>
       <DeckGL
         height={"100%"}
         initialViewState={InitialViewState}

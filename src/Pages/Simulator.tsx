@@ -107,8 +107,8 @@ export default function Simulator() {
         {showModal && (
           <div className=" z-50 flex h-full w-full flex-col items-start justify-center space-y-2 pb-2 text-left text-black">
             <p className="">
-              Detected zones of deforestation and/or vegetation erosion
-              (Detections are ~85% accurate)
+              Zonas de deforestacion y/o erosion vegetal
+              (Detecciones y predicciones son ~85% certeras)
             </p>
             <img
               className="h-2 w-full"

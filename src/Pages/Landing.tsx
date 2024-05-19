@@ -1,11 +1,11 @@
-import Header from "/Users/chema./Documents/Programming/GuadaHack/webApp/ForestForecast/src/Components/Header.tsx";
+import Hero from "../Components/Hero";
 
-export default function Hero() {
+export default function Landing() {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-start">
-      <Header />
-      <div className="relative flex h-full w-full items-center justify-center pb-28">
-        <div className="absolute left-0 top-0 -z-10 h-[60rem] w-screen bg-[#606C38] heropattern-topography-dgreen/35" />
+    <div className="flex h-fit w-screen flex-col items-center justify-start overflow-y-auto scroll-smooth">
+      <Hero />
+      <div id="aboutus" className="h-screen w-screen">
+        sex
       </div>
     </div>
   );

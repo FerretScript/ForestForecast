@@ -1,3 +1,4 @@
+import AboutUs from "./Pages/AboutUs";
 import Landing from "./Pages/Landing";
 import Simulator from "./Pages/Simulator";
 import "./stlyes/index.css";
@@ -8,6 +9,7 @@ function App() {
     <>
       <Route path="/" component={Landing} />
       <Route path="/simulator" component={Simulator} />
+      <Route path="/about-us" component={AboutUs} />
     </>
   );
 }

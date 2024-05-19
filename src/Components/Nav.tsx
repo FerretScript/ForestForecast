@@ -2,17 +2,6 @@ import { Link } from "wouter";
 import { TreePine } from "lucide-react";
 import { motion } from "framer-motion";
 
-const scrollToSection = (
-  e: React.MouseEvent<HTMLAnchorElement>,
-  id: string,
-) => {
-  e.preventDefault();
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
 export default function Nav() {
   return (
     <nav className="min-w-screen flex h-[50px]  w-full items-center justify-between scroll-smooth border-b-2 border-dgreen bg-lgreen md:h-[4.375rem]">
@@ -25,12 +14,13 @@ export default function Nav() {
       </motion.a>
       {/* Nav links */}
       <div className="flex h-full w-fit items-center justify-center">
-        <motion.a
-          href="#aboutus"
-          className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
-        >
-          ABOUT US
-        </motion.a>
+        <Link href="/about-us">
+          <a
+            className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
+          >
+            ABOUT US
+          </a>
+        </Link>
         <Link href="/simulator">
           <a
             className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
@@ -38,13 +28,12 @@ export default function Nav() {
             SIMULATOR
           </a>
         </Link>
-        <motion.a
-          href="#contact"
-          onClick={(e) => scrollToSection(e, "contact")}
+        <a
+          href="mailto:yairprogrammer@gmail.com"
           className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
         >
           CONTACT US
-        </motion.a>
+        </a>
       </div>
       <div className="hidden lg:block"></div>
     </nav>

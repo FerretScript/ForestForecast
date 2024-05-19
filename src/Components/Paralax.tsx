@@ -1,18 +1,32 @@
 import { motion, MotionValue, useTransform } from "framer-motion";
-import { Link } from "wouter";
+import { ChevronDown } from "lucide-react";
+import { scroll } from "framer-motion";
+import { useLocation } from "wouter";
 
 type Props = {
   scrollYProgress: MotionValue<number>;
 };
 
 export default function Paralax({ scrollYProgress }: Props) {
+  const [location, setLocation] = useLocation();
+
+  const navigate = () => {
+    setLocation("/simulator");
+  };
+
+  scroll((progress) => {
+    if (progress > 0.95 && location === "/") {
+      navigate();
+    }
+  });
+
   const backgroundhelper = useTransform(scrollYProgress, [0, 1], ["80%", "0%"]);
   const layer4Y = useTransform(scrollYProgress, [0, 1], ["-1%", "20%"]);
   const layer3Y = useTransform(scrollYProgress, [0, 1], ["-1%", "5%"]);
   const layer2Y = useTransform(scrollYProgress, [0, 1], ["-2%", "-10%"]);
   const layer1Y = useTransform(scrollYProgress, [0, 1], ["-5%", "-25%"]);
 
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "180%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "190%"]);
 
   return (
     <>
@@ -24,15 +38,17 @@ export default function Paralax({ scrollYProgress }: Props) {
           <span className="mb-5 select-none">
             Forest<p className="inline text-dgreen">Forecast</p>
           </span>
-          <Link href="/simulator">
-            <motion.a
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex cursor-pointer select-none items-center justify-center rounded-[2rem] bg-dgreen px-6 pb-4 pt-3 text-center text-[4rem]"
+          <div className="text-md flex items-center justify-around rounded-2xl bg-dgreen px-6 py-4 text-5xl font-normal">
+            <p>Scroll down to start</p>
+            <motion.div
+              initial={{ y: "-15%" }}
+              animate={{ y: [-3, 7, -3] }}
+              transition={{ ease: "linear", duration: 1.4, repeat: Infinity }}
+              className="aspect-square h-full pl-1"
             >
-              Start
-            </motion.a>
-          </Link>
+              <ChevronDown size={50} className="pt-1" />
+            </motion.div>
+          </div>
         </motion.div>
         {/* Background */}
         <motion.div

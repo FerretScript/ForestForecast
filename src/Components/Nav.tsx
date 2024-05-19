@@ -12,7 +12,7 @@ const scrollToSection = (
   }
 };
 
-export default function Header() {
+export default function Nav() {
   return (
     <nav className="min-w-screen flex h-[4.375rem] w-full items-center justify-between scroll-smooth border-b-2 border-dgreen bg-lgreen">
       <Link href="/">
@@ -22,8 +22,7 @@ export default function Header() {
       </Link>
       <div className="flex h-full w-fit items-center justify-center">
         <a
-          href="#about-us"
-          onClick={(e) => scrollToSection(e, "about-us")}
+          href="#aboutus"
           className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
         >
           ABOUT US

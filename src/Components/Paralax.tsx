@@ -12,7 +12,7 @@ export default function Paralax({ scrollYProgress }: Props) {
   const layer2Y = useTransform(scrollYProgress, [0, 1], ["-2%", "-10%"]);
   const layer1Y = useTransform(scrollYProgress, [0, 1], ["-5%", "-25%"]);
 
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "250%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "2%"]);
 
   return (
     <div className="relative grid h-full w-screen place-items-center overflow-hidden">

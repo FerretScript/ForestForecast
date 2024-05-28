@@ -7,7 +7,7 @@ import FloatingNav from "../Components/FloatingNav";
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const api = "https://forestforecastbe.onrender.com";
+const api = import.meta.env.VITE_BACKEND_URL;
 
 const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 

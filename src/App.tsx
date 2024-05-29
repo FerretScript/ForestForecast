@@ -1,7 +1,7 @@
 import AboutUs from "./Pages/AboutUs";
 import Landing from "./Pages/Landing";
 import Simulator from "./Pages/Simulator";
-import "./stlyes/index.css";
+import "./styles/index.css";
 import { Route } from "wouter";
 
 function App() {

@@ -13,7 +13,7 @@ export default function Nav() {
         <TreePine size={34} className="fill-primary stroke-primary" />
       </motion.a>
       {/* Nav links */}
-      <div className="flex h-full w-fit items-center justify-center">
+      <div className="flex h-full w-fit shrink items-center justify-center">
         <Link href="/about-us">
           <a
             className="cursor-pointer px-4 font-serif text-lg font-bold text-primary lg:text-xl"
